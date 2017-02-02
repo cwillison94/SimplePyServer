@@ -24,10 +24,10 @@ def constructResponse(content, status, contentType):
 
     if status == STATUS_200_OK:
         response = bytearray("HTTP/1.1 200 OK" + EOL)
-    elif status == STATUS_500_INTERNAL_SERVER_ERROR:
-        response = bytearray("HTTP/1.1 404 Not Found")
+    elif status == STATUS_404_NOT_FOUND:
+        response = bytearray("HTTP/1.1 404 Not Found" + EOL)
     else: #STATUS_500_INTERNAL_SERVER_ERROR
-        response = bytearray("HTTP/1.1 500 Internal Server Error")
+        response = bytearray("HTTP/1.1 500 Internal Server Error" + EOL)
 
     response.extend("Data: " + formatdate(timeval=None, localtime=False, usegmt=True) + EOL)
     response.extend("Accept-Ranges: bytes" + EOL)
@@ -70,7 +70,7 @@ def startServer(host , port):
         try:
             request = connectionSocket.recv(1024)
             filename = request.split()[1][1:]
-            
+
             f = open(filename, "rb") 
             content = f.read()
 
@@ -97,7 +97,3 @@ def startServer(host , port):
     serverSocket.close() 
 
 if __name__== "__main__": startServer(DEFAULT_HOST, DEFAULT_PORT)
-
-
-
-
